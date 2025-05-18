@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+<html data-theme="light" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Defensoria Estudantil</title>
+<link href="css/admp1.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script crossorigin="anonymous" referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<style>
+        /* Estilos para o modo escuro */
+        /* ... existing styles ... */
+    </style>
+</head>
+<body>
+<!-- Header Section -->
+<header class="site-header">
+<div class="header-container">
+<div class="header-content">
+<div class="logo">
+<a href="#">CyberDefense</a>
+</div>
+<div class="auth-buttons">
+<button class="login-button" id="add-case-button">Adicionar novos casos</button>
+<button class="register-button">Sair</button>
+<button aria-label="Alternar tema" class="theme-toggle" id="theme-toggle">
+<svg class="sun-icon" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<svg class="moon-icon" fill="none" stroke="currentColor" style="display: none;" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</header>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Redirecionamento ao clicar no botão "Adicionar novos casos"
+            const addCaseButton = document.getElementById('add-case-button');
+            if (addCaseButton) {
+                addCaseButton.addEventListener('click', function() {
+                    window.location.href = 'cadastros-de-novos-caos.html';
+                });
+            }
+        });
+    </script>
+<!-- Main content and footer -->
+<main class="main-frame">
+<!-- Hero Section -->
+<section class="section hero-section">
+<div class="container">
+<div class="hero-content">
+<h1 class="hero-title">Defensoria Estudantil</h1>
+<p class="hero-subtitle">Acesso Restrito da Defensoria Escolar.</p>
+</div>
+</div>
+</section>
+<!-- NOVO CONTEÚDO AQUI -->
+<div class="container mx-auto px-6 py-8">
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="dashboard-stats">
+<div class="bg-white rounded-lg shadow p-6">
+<h2 class="text-lg font-semibold text-gray-700">Casos Recebidos</h2>
+<p class="text-3xl font-bold text-blue-500">
+                        1,284
+                        <span class="text-blue-600 inline-block">
+<i class="fa-solid fa-inbox text-2xl"></i>
+</span>
+</p>
+</div>
+<div class="bg-white rounded-lg shadow p-6">
+<h2 class="text-lg font-semibold text-gray-700">Defesas Cadastradas</h2>
+<p class="text-3xl font-bold text-green-500">
+                        957
+                        <span class="text-green-600 inline-block">
+<i class="fa-solid fa-file-shield text-2xl"></i>
+</span>
+</p>
+</div>
+<div class="bg-white rounded-lg shadow p-6">
+<h2 class="text-lg font-semibold text-gray-700">Em Análise</h2>
+<p class="text-3xl font-bold text-yellow-500">
+                        327
+                        <span class="text-yellow-600 inline-block">
+<i class="fa-solid fa-magnifying-glass-chart text-2xl"></i>
+</span>
+</p>
+</div>
+<div class="bg-white rounded-lg shadow p-6">
+<h2 class="text-lg font-semibold text-gray-700">Concluídos</h2>
+<p class="text-3xl font-bold text-emerald-500">
+                        630
+                        <span class="text-purple-600 inline-block">
+<i class="fa-solid fa-check-double text-2xl"></i>
+</span>
+</p>
+</div>
+</section>
+<section class="bg-white rounded-lg shadow mb-8 p-6" id="search-section">
+<h2 class="text-xl font-semibold text-gray-700 mb-4">Busca Avançada</h2>
+<form class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="search-container">
+<i class="fa-solid fa-search search-icon"></i>
+<input class="border border-gray-300 rounded px-4 py-2 w-full" id="search-acusado" placeholder="Nome ou CPF" type="text"/>
+</div>
+<input class="border border-gray-300 rounded px-4 py-2" id="search-process" placeholder="Nº do Processo" type="text"/> <!-- Campo para pesquisa por número do processo -->
+<input class="border border-gray-300 rounded px-4 py-2" placeholder="Palavra-chave" type="text"/>
+<button class="col-span-1 md:col-span-3 bg-blue-600 text-white rounded px-6 py-2 hover:bg-blue-700" type="submit">Buscar</button>
+</form>
+</section>
+<section class="bg-white rounded-lg shadow p-6" id="cases-list">
+<h2 class="text-xl font-semibold text-gray-700 mb-4">Casos Recentes</h2>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="bg-gray-50">
+<th class="px-4 py-3 text-left">Acusado</th>
+<th class="px-4 py-3 text-left">Nº do Processo</th>
+<th class="px-4 py-3 text-left">Data</th>
+<th class="px-4 py-3 text-left">Status</th>
+<th class="px-4 py-3 text-left">Ações</th>
+</tr>
+</thead>
+<tbody id="acusados-list">
+<tr class="border-t" data-name="Everton Vitor" data-process-number="123456789">
+<td class="px-4 py-3">Everton Vitor</td>
+<td class="px-4 py-3">123456789</td>
+<td class="px-4 py-3">15/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="everton-vitor">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Ana dos Santos" data-process-number="987654321">
+<td class="px-4 py-3">Ana dos Santos</td>
+<td class="px-4 py-3">987654321</td>
+<td class="px-4 py-3">14/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="ana-dos-santos">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Julia Gomes" data-process-number="456789123">
+<td class="px-4 py-3">Julia Gomes</td>
+<td class="px-4 py-3">456789123</td>
+<td class="px-4 py-3">15/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="julia-gomes">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Evellyin Oliveira" data-process-number="321654987">
+<td class="px-4 py-3">Evellyin Oliveira</td>
+<td class="px-4 py-3">321654987</td>
+<td class="px-4 py-3">14/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="evellyin-oliveira">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Amanda Alvez" data-process-number="654321789">
+<td class="px-4 py-3">Amanda Alvez</td>
+<td class="px-4 py-3">654321789</td>
+<td class="px-4 py-3">15/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="amanda-alvez">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Maria Luiza" data-process-number="789123456">
+<td class="px-4 py-3">Maria Luiza</td>
+<td class="px-4 py-3">789123456</td>
+<td class="px-4 py-3">14/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="maria-luiza">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Ana Julia" data-process-number="159753486">
+<td class="px-4 py-3">Ana Julia</td>
+<td class="px-4 py-3">159753486</td>
+<td class="px-4 py-3">15/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="ana-julia">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Luiz Ferreira" data-process-number="753159864">
+<td class="px-4 py-3">Luiz Ferreira</td>
+<td class="px-4 py-3">753159864</td>
+<td class="px-4 py-3">14/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="luiz-ferreira">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+<tr class="border-t" data-name="Caio Renaux" data-process-number="852963741">
+<td class="px-4 py-3">Caio Renaux</td>
+<td class="px-4 py-3">852963741</td>
+<td class="px-4 py-3">15/03/2025</td>
+<td class="px-4 py-3">
+<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+</td>
+<td class="px-4 py-3">
+<button class="text-blue-600 hover:text-blue-800 view-details" data-id="caio-renaux">
+<i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+                                    </button>
+</td>
+</tr>
+
+<tr class="border-t" data-name="Test User 1" data-process-number="900000001">
+    <td class="px-4 py-3">Test User 1</td>
+    <td class="px-4 py-3">900000001</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-1">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 2" data-process-number="900000002">
+    <td class="px-4 py-3">Test User 2</td>
+    <td class="px-4 py-3">900000002</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-2">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 3" data-process-number="900000003">
+    <td class="px-4 py-3">Test User 3</td>
+    <td class="px-4 py-3">900000003</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-3">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 4" data-process-number="900000004">
+    <td class="px-4 py-3">Test User 4</td>
+    <td class="px-4 py-3">900000004</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-4">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 5" data-process-number="900000005">
+    <td class="px-4 py-3">Test User 5</td>
+    <td class="px-4 py-3">900000005</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-5">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 6" data-process-number="900000006">
+    <td class="px-4 py-3">Test User 6</td>
+    <td class="px-4 py-3">900000006</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-6">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 7" data-process-number="900000007">
+    <td class="px-4 py-3">Test User 7</td>
+    <td class="px-4 py-3">900000007</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-7">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 8" data-process-number="900000008">
+    <td class="px-4 py-3">Test User 8</td>
+    <td class="px-4 py-3">900000008</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-8">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 9" data-process-number="900000009">
+    <td class="px-4 py-3">Test User 9</td>
+    <td class="px-4 py-3">900000009</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Concluído</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-9">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+<tr class="border-t" data-name="Test User 10" data-process-number="9000000010">
+    <td class="px-4 py-3">Test User 10</td>
+    <td class="px-4 py-3">9000000010</td>
+    <td class="px-4 py-3">13/03/2025</td>
+    <td class="px-4 py-3">
+        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Em Análise</span>
+    </td>
+    <td class="px-4 py-3">
+        <button class="text-blue-600 hover:text-blue-800 view-details" data-id="test-user-10">
+            <i class="fa-solid fa-eye mr-2"></i>Ver Detalhes
+        </button>
+    </td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex justify-between items-center mt-6">
+    <p class="text-sm text-gray-500" id="paginationInfo">Mostrando 0 de 0 resultados</p>
+    <div class="flex space-x-2" id="pagination">
+        <button class="pagination-button px-3 py-1 border rounded-lg hover:bg-gray-50" id="prevPage" disabled>Anterior</button>
+        <button class="pagination-button px-3 py-1 border rounded-lg hover:bg-gray-50" data-page="1">1</button>
+        <button class="pagination-button px-3 py-1 border rounded-lg hover:bg-gray-50" data-page="2">2</button>
+        <button class="pagination-button px-3 py-1 border rounded-lg hover:bg-gray-50" data-page="3">3</button>
+        <button class="pagination-button px-3 py-1 border rounded-lg hover:bg-gray-50" id="nextPage">Próximo</button>
+    </div>
+</div>
+</section>
+</div>
+<!-- FIM DO NOVO CONTEÚDO -->
+<!-- Footer Section -->
+<footer class="site-footer">
+<div class="footer-container">
+<div class="footer-content">
+<!-- Company Info -->
+<div class="footer-column">
+<h3 class="footer-title">CyberDefense</h3>
+<p class="footer-description">Apoiando a defesa justa contra acusações de bullying.</p>
+</div>
+<!-- Quick Links -->
+<div class="footer-column">
+<h3 class="footer-title">Links Rapidos</h3>
+<ul class="footer-links">
+<li><a href="#">tela de inicio</a></li>
+<li><a href="#">Enviar Evidência</a></li>
+<li><a href="#">analisar</a></li>
+<li><a href="#">Contato</a></li>
+</ul>
+</div>
+<!-- Legal Links -->
+<div class="footer-column">
+<h3 class="footer-title">Legal</h3>
+<ul class="footer-links">
+<li><a href="#">Política de Privacidade</a></li>
+<li><a href="#">Termos de Uso</a></li>
+<li><a href="#">Política de Cookies</a></li>
+</ul>
+</div>
+<!-- Contact Info -->
+<div class="footer-column">
+<h3 class="footer-title">Contato</h3>
+<ul class="footer-contact">
+<li>
+<img alt="Email icon" class="contact-icon" src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/12e3e5c0-7957-484a-9862-266b72810b4c"/>
+<span>Email: support@cyberdefense.com</span>
+</li>
+<li>
+<img alt="Phone icon" class="contact-icon" src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6274e94d-2dba-412e-9de5-1484acf3cbb1"/>
+<span>Telefone: +81 (55) 123-4567</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Copyright Section -->
+<div class="copyright">
+<p>© 2025 CyberDefense. Todos os direitos reservados.</p>
+</div>
+</div>
+</footer>
+<script src="js/admp1.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Implementação do modo escuro
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            // Verificar se há preferência salva
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            
+            // Aplicar modo escuro se necessário
+            if (isDarkMode) {
+                document.body.classList.add('dark');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+            
+            // Alternar modo escuro ao clicar no botão
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark');
+                const isDark = document.body.classList.contains('dark');
+                
+                // Alternar ícones
+                sunIcon.style.display = isDark ? 'none' : 'block';
+                moonIcon.style.display = isDark ? 'block' : 'none';
+                
+                // Salvar preferência
+                localStorage.setItem('darkMode', isDark);
+            });
+            
+            // Implementação da pesquisa inteligente combinada
+            const searchInput = document.getElementById('search-acusado');
+            const searchProcessInput = document.getElementById('search-process');
+            const acusadosList = document.getElementById('acusados-list');
+            const acusadosRows = Array.from(acusadosList.querySelectorAll('tr'));
+            
+            function filterList() {
+                const nameTerm = searchInput.value.toLowerCase().trim();
+                const processTerm = searchProcessInput.value.toLowerCase().trim();
+                
+                const filteredRows = acusadosRows.map(row => {
+                    const name = row.getAttribute('data-name').toLowerCase();
+                    const numero = row.getAttribute('data-process-number').toLowerCase();
+                    
+                    let prioridade = -1;
+                    
+                    if ((name.startsWith(nameTerm) && nameTerm) || (numero.startsWith(processTerm) && processTerm)) {
+                        prioridade = 2;
+                    } else if ((name.includes(nameTerm) && nameTerm) || (numero.includes(processTerm) && processTerm)) {
+                        prioridade = 1;
+                    }
+                    
+                    return { element: row, prioridade };
+                }).filter(r => r.prioridade !== -1);
+                
+                // Ordenar por prioridade
+                filteredRows.sort((a, b) => b.prioridade - a.prioridade);
+                
+                // Ocultar todas as linhas
+                acusadosRows.forEach(row => row.style.display = 'none');
+                
+                // Mostrar e reordenar as filtradas
+                filteredRows.forEach(r => {
+                    r.element.style.display = '';
+                    acusadosList.appendChild(r.element);
+                });
+            }
+            
+            searchInput.addEventListener('input', filterList);
+            searchProcessInput.addEventListener('input', filterList);
+            
+            // Implementação dos botões "Ver detalhes"
+            const viewDetailsButtons = document.querySelectorAll('.view-details');
+            
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const acusadoId = this.getAttribute('data-id');
+                    window.location.href = `analise.html?id=${acusadoId}`; // Redireciona para analise.html
+                });
+            });
+        });
+    </script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script existente para o botão redirect-button
+            const redirectButton = document.getElementById('redirect-button');
+            
+            if (redirectButton) {
+                redirectButton.addEventListener('click', function() {
+                    window.location.href = 'denuncia.html';
+                });
+            }
+            
+            // Novo script para o botão register-button
+            const registerButton = document.querySelector('.register-button');
+            
+            if (registerButton) {
+                registerButton.addEventListener('click', function() {
+                    window.location.href = 'login.html';
+                });
+            }
+            
+            // Novo script para o botão theme-toggle (dark mode)
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            // Verificar se há uma preferência salva
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            
+            // Aplicar tema salvo (se existir)
+            if (isDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark'); // Alterado para usar data-theme
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    // Alternar atributo data-theme
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    
+                    // Alternar entre ícones
+                    const isDark = newTheme === 'dark';
+                    sunIcon.style.display = isDark ? 'none' : 'block';
+                    moonIcon.style.display = isDark ? 'block' : 'none';
+                    
+                    // Salvar preferência
+                    localStorage.setItem('darkMode', isDark);
+                });
+            }
+        });
+    </script>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rowsPerPage = 10;
+    let currentPage = 1;
+
+    const allRows = Array.from(document.querySelectorAll('#acusados-list tr'));
+    const totalRows = allRows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+    const paginationInfo = document.getElementById('paginationInfo');
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+
+    function renderPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        allRows.forEach((row, index) => {
+            row.style.display = index >= start && index < end ? '' : 'none';
+        });
+
+        currentPage = page;
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+
+        paginationInfo.textContent = `Mostrando ${start + 1} a ${Math.min(end, totalRows)} de ${totalRows} resultados`;
+    }
+
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) renderPage(currentPage - 1);
+    });
+
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) renderPage(currentPage + 1);
+    });
+
+    document.querySelectorAll('.pagination-button[data-page]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const page = parseInt(btn.getAttribute('data-page'), 10);
+            if (!isNaN(page)) renderPage(page);
+        });
+    });
+
+    renderPage(1);
+});
+</script>
+
+</body>
+</html>
